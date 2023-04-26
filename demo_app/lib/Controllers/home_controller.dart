@@ -18,14 +18,14 @@ class HomeController extends BaseController {
   @override
   void onReady() {
     super.onReady();
-    getDrinks();
+    getDrinks('');
   }
 
-  getDrinks() {
+  getDrinks(String searchQuery) {
     isLoading.value = true;
     Helpers.checkConnectivity().then((isConnected) {
       if (isConnected) {
-        _drinkRepository.getDrinks().then((response) {
+        _drinkRepository.getDrinks(searchQuery).then((response) {
           isLoading.value = false;
           if (response.data != null) {
             drinks.value = response.data ?? [];
@@ -40,21 +40,5 @@ class HomeController extends BaseController {
         Helpers.showToast('No Internet');
       }
     });
-  }
-
-  searchDrink(String value) {
-    List<Drinks> itemData = [];
-
-    drinks.value = allDrinks;
-    for (var item in searchDrinkList) {
-      if (item.strDrink!.toLowerCase().contains(value) ||
-          item.strDrink!.toUpperCase().contains(value)) {
-        if (!itemData.contains(item)) {
-          itemData.add(item);
-        }
-      }
-    }
-
-    drinks.value = itemData.obs;
   }
 }

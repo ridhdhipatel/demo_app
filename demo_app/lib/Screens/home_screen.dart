@@ -61,13 +61,22 @@ class HomeScreen extends GetView<HomeController> {
                                 color: Colors.grey,
                               ),
                             ),
-                            onChanged: (value) {
+                            onFieldSubmitted: (value) {
                               if (value.isNotEmpty) {
-                                controller.searchDrink(value);
+                                controller.getDrinks(value);
                               } else {
-                                controller.getDrinks();
+                                controller.getDrinks('');
                               }
                             },
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            controller.textEditingController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            size: 20.0,
                           ),
                         ),
                       ],

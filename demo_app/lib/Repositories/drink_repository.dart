@@ -6,10 +6,11 @@ import '../Repositories/i_drink_repository.dart';
 
 class DrinkRepository implements IDrinkRepository {
   @override
-  Future<APIResponse<List<Drinks>>> getDrinks() {
+  Future<APIResponse<List<Drinks>>> getDrinks(String searchQuery) {
     return http
-        .get(Uri.parse(
-            'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=rum'))
+        .get(Uri.parse(searchQuery.isEmpty
+            ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+            : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=$searchQuery'))
         .then((response) {
       if (response.statusCode == 200) {
         var responseData = jsonDecode(response.body)['drinks'];
